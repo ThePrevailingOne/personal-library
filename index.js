@@ -41,9 +41,9 @@ function BookBlock(book) {
     this.delbtn.classList.add('delbtn');
     this.editbtn.classList.add('editbtn');
     // attach all info to card info
-    console.log("bukunya nih ",book);
+    console.log("bukunya nih ", book);
     for(let key in book){
-        if(typeof(book[key]) != 'function'){
+        if(typeof(book[key]) != 'function' && typeof(book[key]) != 'object'){
             let section = document.createElement('div');
             let head = document.createElement('h4');
             let detail = document.createElement('p');
@@ -65,9 +65,16 @@ function BookBlock(book) {
     // attach info and button
     this.block.appendChild(this.cardInfos);
     this.block.appendChild(this.cardButtons);
-    //corelate both book and block
+    // corelate both book and block
     book.block = this;
     this.book = book;
+    // attach onclick function to delete
+    this.delbtn.addEventListener("click", () => deleteBook(this.book));
+}
+
+function deleteBook(book){
+    library = library.filter(b => b !== book);
+    updateGallery();
 }
 
 function openForm(){

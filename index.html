@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vanilla Book Library</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+    <div id="modal">
+        <div id="formbox">
+            <h1>Add a New Book to Your Library</h1>
+            <div id="inputbox">
+                <div class="inputter" ><p>Title</p><input type="text" placeholder="enter title.." id="inptitle"></div>
+                <div class="inputter" ><p>Author</p><input type="text" placeholder="enter author.." id="inpauthor"></div>
+                <div class="inputter" ><p>Pages</p><input type="number" placeholder="enter pages.." id="inppages"></div>
+                <div id="checker"><p>Already read?</p><input type="checkbox" id="readbox"></div>
+            </div>
+            <div id="submitbox">
+                <button id="canceller" onclick="closeForm()"><i class="fas fa-times"></i> cancel</button>
+                <button id="submitter" onclick="submitForm()"><i class="fas fa-check"></i> submit</button>
+            </div>
+        </div>
+    </div>
+    <div id="header"><h1>Personal Book Library</h1></div>
+    <div id="container">
+        <div id="gallery">
+            <div class="cardblock">
+                <div class="cardinfo">
+                    <div class="section"><h4>title</h4><p>A Game of Throne</p></div>
+                    <div class="section"><h4>author</h4><p>George R. R. Martin</p></div>
+                    <div class="section"><h4>pages</h4><p>709</p></div>
+                    <div class="section"><h4>completed</h4><p>true</p></div>
+                </div>
+                <div class="cardbutton">
+                    <button class="delbtn"><i class="fas fa-trash"></i></button>
+                    <button class="editbtn"><i class="far fa-edit"></i></button>
+                </div>
+            </div>
+            <div class="cardblock">
+                <div class="cardinfo">
+                    <div class="section"><h4>title</h4><p>A Game of Throne</p></div>
+                    <div class="section"><h4>author</h4><p>George R. R. Martin</p></div>
+                    <div class="section"><h4>pages</h4><p>709</p></div>
+                    <div class="section"><h4>completed</h4><p>nope</p></div>
+                </div>
+                <div class="cardbutton">
+                    <button class="delbtn"><i class="fas fa-trash"></i></button>
+                    <button class="editbtn"><i class="far fa-edit"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="buttons">
+            <button onclick="openForm()"><p><i class="fas fa-plus"></i> add book</p></button>
+        </div>
+    </div>
+    <div id="footer">
+        <p> Made by Edward Alvin, visit <a href="https://github.com/ThePrevailingOne">github.com/ThePrevailingOne</a> for more.</p>
+    </div>
+</body>
+<script src="index.js"></script>
+</html>

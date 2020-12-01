@@ -24,8 +24,6 @@ let readBox = document.querySelector("#readbox");
 
 // define html library
 let gallery = document.querySelector("#gallery");
-console.log(gallery.firstElementChild);
-gallery.removeChild(gallery.firstElementChild);
 
 function BookBlock(book) {
     // define all elements

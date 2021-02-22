@@ -1,19 +1,79 @@
-let library = [];
+//let library = [];
 // define book
-function Book(title, author, pages, isRead) {
+function Book(title, author, pages, isRead, date) {
     return {
         title,
         author,
         pages,
         isRead,
-        info: function(){return `${this.title} by ${this.author}, ${this.pages} pages, ${this.isRead}.`}
+		date,
     };
 }
 // define access to book info
+//
+class LocalStorage {
+	constructor() {
+		this.ls = window.localStorage;
+		let txt = this.ls.getItem('keys');
+		if (txt) {
+			this.keys = JSON.parse(txt);
+			if (!(this.keys)) {
+				this.keys = [];
+				this.ls.setItem('keys', []);
+			}
+		} else {
+			this.keys = [];
+		}
+	}
 
-let theHobbit = new Book("The Hobbit", "J. R. R. Tolkien", 295, false);
-for(key in theHobbit){if(typeof(theHobbit[key]) != 'function')console.log(key);};
-library.push(theHobbit);
+	setBookObj(bookObj) {
+		let len = this.keys.length;
+		this.ls.setItem(bookObj.date, JSON.stringify(bookObj));
+		this.keys.push(bookObj.date);
+		this.ls.setItem('keys', JSON.stringify(this.keys));
+	}
+
+	getBookObj(key) {
+		let obj = JSON.parse(this.ls.getItem(key));
+		return obj;
+	}
+
+	getAllItems() {
+		let arr = [];
+		for (let i = 0; i < this.keys.length; i ++) {
+			let itm = this.getBookObj(this.keys[i]);
+			if (itm) {
+				arr.push(itm);
+			}
+		}
+		return arr;
+	}
+
+	delItem(obj) {
+		this.delKeys(obj.date);
+		this.ls.removeItem(obj.date);
+	}
+
+	// HELPER funcs
+	delKeys(val) {
+		this.keys = this.keys.filter(x => x !== val);
+		this.ls.setItem('keys', JSON.stringify(this.keys));
+	}
+
+	push(obj) {
+		this.setBookObj(obj);
+	} 
+}
+
+function info(obj) {
+	return `${obj.title} by ${obj.author}, ${obj.pages} pages, ${obj.isRead}.`
+}
+
+//let theHobbit = new Book("The Hobbit", "J. R. R. Tolkien", 295, false);
+//for(key in theHobbit){if(typeof(theHobbit[key]) != 'function')console.log(key);};
+
+let library = new LocalStorage();
+//library.setBookObj(theHobbit);
 
 // define form and modal
 let modal = document.querySelector("#modal");
@@ -71,7 +131,8 @@ function BookBlock(book) {
 }
 
 function deleteBook(book){
-    library = library.filter(b => b !== book);
+	library.delItem(book);
+    //library = library.filter(b => b !== book);
     updateGallery();
 }
 
@@ -86,7 +147,7 @@ function closeForm(){
 }
 
 function submitForm() {
-    let book = new Book(titleInput.value, authorInput.value, pagesInput.value, readBox.checked);
+    let book = new Book(titleInput.value, authorInput.value, pagesInput.value, readBox.checked, (new Date()).toISOString());
     library.push(book);
     printLibrary();
     closeForm();
@@ -94,7 +155,7 @@ function submitForm() {
 }
 
 function printLibrary() {
-    library.forEach(b => console.log(b.info()));
+    library.getAllItems().forEach(b => console.log(info(b)));
 }
 
 function updateGallery() {
@@ -103,9 +164,12 @@ function updateGallery() {
         gallery.removeChild(gallery.firstElementChild);
     };
 
-    for(let i in library){
-        let block = new BookBlock(library[i]);
+	let items = library.getAllItems();
+    for(let i in items){
+        let block = new BookBlock(items[i]);
         console.log(block.block);
         gallery.appendChild(block.block);
     };
 }
+
+window.onLoad = updateGallery();
